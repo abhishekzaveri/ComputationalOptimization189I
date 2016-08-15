@@ -1,0 +1,1 @@
+Projects for Computational Optimization. Each folder has its own README explaining the programs. 
