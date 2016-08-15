@@ -1,0 +1,305 @@
+
+set NODES := 
+         Boundary1st
+    BoundaryHastings
+       BroadwayClark
+          Cambie41st
+      CambieBroadway
+            Clark1st
+            Downtown
+       Granville41st
+   GranvilleBroadway
+       HastingsClark
+    KingswayBoundary
+    KingswayBroadway
+      KingswayKnight
+          Knight41st
+        KnightMarine
+    LougheedBoundary
+        MainTerminal
+          Marine41st
+      MarineBoundary
+        MarineCambie
+     MarineGranville
+           MarineOak
+             Oak41st
+         OakBroadway
+                 UBC 
+;
+
+param coord :            long              lat :=
+         Boundary1st     -123.023421       49.269459
+    BoundaryHastings     -123.023351       49.281132
+       BroadwayClark     -123.077599       49.262378
+          Cambie41st     -123.116058       49.233520
+      CambieBroadway     -123.114716       49.263235
+            Clark1st     -123.077314       49.269678
+            Downtown     -123.121405       49.280311
+       Granville41st     -123.139608       49.234332
+   GranvilleBroadway     -123.138557       49.263650
+       HastingsClark     -123.077084       49.281288
+    KingswayBoundary     -123.023402       49.232366
+    KingswayBroadway     -123.099390       49.262858
+      KingswayKnight     -123.076010       49.250010
+          Knight41st     -123.077128       49.232768
+        KnightMarine     -123.077432       49.211766
+    LougheedBoundary     -123.023430       49.265659
+        MainTerminal     -123.099939       49.272719
+          Marine41st     -123.196651       49.234806
+      MarineBoundary     -123.023368       49.205501
+        MarineCambie     -123.117060       49.210233
+     MarineGranville     -123.140394       49.205333
+           MarineOak     -123.130434       49.204675
+             Oak41st     -123.128054       49.234009
+         OakBroadway     -123.126579       49.263357
+                 UBC     -123.252496       49.264878              
+;
+
+param s := KingswayBoundary ;
+param t := UBC ;
+
+
+set EDGES := 
+         Boundary1st    BoundaryHastings
+         Boundary1st            Clark1st
+         Boundary1st    LougheedBoundary
+    BoundaryHastings         Boundary1st
+    BoundaryHastings       HastingsClark
+       BroadwayClark            Clark1st
+       BroadwayClark    KingswayBroadway
+       BroadwayClark      KingswayKnight
+       BroadwayClark    LougheedBoundary
+          Cambie41st      CambieBroadway
+          Cambie41st          Knight41st
+          Cambie41st        MarineCambie
+          Cambie41st             Oak41st
+      CambieBroadway          Cambie41st
+      CambieBroadway            Downtown
+      CambieBroadway    KingswayBroadway
+      CambieBroadway         OakBroadway
+            Clark1st         Boundary1st
+            Clark1st       BroadwayClark
+            Clark1st       HastingsClark
+            Clark1st        MainTerminal
+            Downtown      CambieBroadway
+            Downtown   GranvilleBroadway
+            Downtown       HastingsClark
+            Downtown        MainTerminal
+       Granville41st   GranvilleBroadway
+       Granville41st          Marine41st
+       Granville41st     MarineGranville
+       Granville41st             Oak41st
+   GranvilleBroadway            Downtown
+   GranvilleBroadway       Granville41st
+   GranvilleBroadway         OakBroadway
+   GranvilleBroadway                 UBC
+       HastingsClark    BoundaryHastings
+       HastingsClark            Clark1st
+       HastingsClark            Downtown
+    KingswayBoundary      KingswayKnight
+    KingswayBoundary          Knight41st
+    KingswayBoundary    LougheedBoundary
+    KingswayBoundary      MarineBoundary
+    KingswayBroadway       BroadwayClark
+    KingswayBroadway      CambieBroadway
+    KingswayBroadway      KingswayKnight
+    KingswayBroadway        MainTerminal
+      KingswayKnight       BroadwayClark
+      KingswayKnight    KingswayBoundary
+      KingswayKnight    KingswayBroadway
+      KingswayKnight          Knight41st
+          Knight41st          Cambie41st
+          Knight41st    KingswayBoundary
+          Knight41st      KingswayKnight
+          Knight41st        KnightMarine
+        KnightMarine          Knight41st
+        KnightMarine      MarineBoundary
+        KnightMarine        MarineCambie
+    LougheedBoundary         Boundary1st
+    LougheedBoundary       BroadwayClark
+    LougheedBoundary    KingswayBoundary
+        MainTerminal            Clark1st
+        MainTerminal            Downtown
+        MainTerminal    KingswayBroadway
+          Marine41st       Granville41st
+          Marine41st     MarineGranville
+          Marine41st                 UBC
+      MarineBoundary    KingswayBoundary
+      MarineBoundary        KnightMarine
+        MarineCambie          Cambie41st
+        MarineCambie        KnightMarine
+        MarineCambie           MarineOak
+     MarineGranville       Granville41st
+     MarineGranville          Marine41st
+     MarineGranville           MarineOak
+           MarineOak        MarineCambie
+           MarineOak     MarineGranville
+           MarineOak             Oak41st
+             Oak41st          Cambie41st
+             Oak41st       Granville41st
+             Oak41st           MarineOak
+             Oak41st         OakBroadway
+         OakBroadway      CambieBroadway
+         OakBroadway   GranvilleBroadway
+         OakBroadway             Oak41st
+                 UBC   GranvilleBroadway
+                 UBC          Marine41st
+;
+
+set BUSES :=
+     9
+    10
+    14
+    15
+    16
+    17
+    19
+    22
+    28
+    41
+    99
+   100
+   480
+   CL
+   EML
+;
+
+param:  freq  load :=
+     9    12    50
+    10    12    50
+    14     6    50
+    15     4    50
+    16     6    50
+    17     6    50
+    19     6    50
+    22    12    50
+    28     4    50
+    41    12    50
+    99    20   100
+   100     6    50
+   480     8   100
+   CL     12   200  
+   EML    24   200
+;
+
+param unitcost := .10; # cost per passenger per km
+
+
+param demand :=
+        MarineGranville         -500
+        MarineOak               -500
+        MarineCambie            -500
+        KingswayBoundary        -500
+        BoundaryHastings        -500
+        UBC                     2500
+;
+
+set ROUTE[9] :=
+    LougheedBoundary       BroadwayClark
+       BroadwayClark    KingswayBroadway
+    KingswayBroadway      CambieBroadway
+      CambieBroadway         OakBroadway
+         OakBroadway   GranvilleBroadway
+   GranvilleBroadway                 UBC
+;
+
+set ROUTE[10] :=
+        MarineCambie           MarineOak
+           MarineOak     MarineGranville
+     MarineGranville       Granville41st
+       Granville41st   GranvilleBroadway
+   GranvilleBroadway            Downtown
+;
+
+set ROUTE[14] :=
+    BoundaryHastings       HastingsClark
+       HastingsClark            Downtown
+            Downtown   GranvilleBroadway
+   GranvilleBroadway                 UBC
+;
+
+set ROUTE[15] :=
+        MarineCambie          Cambie41st
+          Cambie41st      CambieBroadway
+      CambieBroadway            Downtown
+;
+
+set ROUTE[16] :=
+    BoundaryHastings       HastingsClark
+       HastingsClark            Downtown
+;
+
+set ROUTE[17] :=
+        MarineCambie           MarineOak
+           MarineOak             Oak41st
+             Oak41st         OakBroadway
+         OakBroadway      CambieBroadway
+      CambieBroadway            Downtown
+;
+
+set ROUTE[19] :=
+    KingswayBoundary      KingswayKnight
+      KingswayKnight    KingswayBroadway
+    KingswayBroadway        MainTerminal
+        MainTerminal            Downtown
+;
+
+set ROUTE[22] :=
+        KnightMarine          Knight41st
+          Knight41st      KingswayKnight
+      KingswayKnight       BroadwayClark
+       BroadwayClark            Clark1st
+            Clark1st        MainTerminal
+        MainTerminal            Downtown
+;
+
+set ROUTE[28] :=
+    KingswayBoundary    LougheedBoundary
+    LougheedBoundary         Boundary1st
+         Boundary1st    BoundaryHastings
+;
+
+set ROUTE[41] :=
+    KingswayBoundary          Knight41st
+          Knight41st          Cambie41st
+          Cambie41st             Oak41st
+             Oak41st       Granville41st
+       Granville41st          Marine41st
+          Marine41st                 UBC
+;
+
+set ROUTE[99] :=
+       BroadwayClark    KingswayBroadway
+    KingswayBroadway      CambieBroadway
+      CambieBroadway         OakBroadway
+         OakBroadway   GranvilleBroadway
+   GranvilleBroadway                 UBC
+;
+
+set ROUTE[100] :=
+      MarineBoundary        KnightMarine
+        KnightMarine        MarineCambie
+        MarineCambie           MarineOak
+           MarineOak     MarineGranville
+;
+
+set ROUTE[480] :=
+           MarineOak     MarineGranville
+     MarineGranville       Granville41st
+       Granville41st          Marine41st
+          Marine41st                 UBC
+;
+set ROUTE[CL] :=
+	MarineCambie    Cambie41st
+	Cambie41st 	CambieBroadway
+	CambieBroadway  Downtown 
+;
+
+set ROUTE[EML] :=
+	KingswayBoundary  KingswayKnight
+	KingswayKnight	  KingswayBroadway
+	KingswayBroadway  MainTerminal 
+	MainTerminal	  Downtown 
+;
+
+end;

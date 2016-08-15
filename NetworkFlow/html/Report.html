@@ -1,0 +1,600 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Network Flow Case Study Report</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-05-23"><meta name="DC.source" content="Report.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Network Flow Case Study Report</h1><!--introduction--><p>Shawn Taxerman      ECS 189 Spring 2016</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">4.1</a></li><li><a href="#7">4.2</a></li><li><a href="#9">4.3</a></li></ul></div><h2>4.1<a name="1"></a></h2><p>1.</p><pre class="codeinput"><span class="syscmd">!glpsol;</span>
+</pre><pre class="codeoutput">GLPSOL: GLPK LP/MIP Solver, v4.55
+No input problem file specified; try glpsol --help
+</pre><p>2.</p><pre class="codeinput">prob.model = <span class="string">'maxflow.mod'</span>;
+prob.data = <span class="string">'maxflow.dat'</span>;
+solution = solve_network_flow(prob);
+h = plot_flow(solution, <span class="string">'Max Flow'</span>);
+</pre><pre class="codeoutput">GLPSOL: GLPK LP/MIP Solver, v4.55
+Parameter(s) specified in the command line:
+ -m maxflow.mod -d maxflow.dat
+Reading model section from maxflow.mod...
+97 lines were read
+Reading data section from maxflow.dat...
+276 lines were read
+Generating total_flow...
+Generating source_flow...
+Generating sink_flow...
+Generating flow_conservation...
+Model has been successfully generated
+GLPK Simplex Optimizer, v4.55
+26 rows, 85 columns, 171 non-zeros
+Preprocessing...
+25 rows, 77 columns, 154 non-zeros
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
+Problem data seem to be well scaled
+Constructing initial basis...
+Size of triangular part is 24
+*     0: obj =   0.000000000e+00  infeas =  0.000e+00 (1)
+*    19: obj =   1.100000000e+03  infeas =  0.000e+00 (1)
+OPTIMAL LP SOLUTION FOUND
+Time used:   0.0 secs
+Memory used: 0.3 Mb (354024 bytes)
+Wrote solution to sol.txt
+Wrote node information to nodes.txt
+SOURCE flow:
+    KingswayBoundary           -1100
+SINK flow:
+                 UBC            1100
+Total flow: 1100 passengers/hour
+Model has been successfully processed
+</pre><img vspace="5" hspace="5" src="Report_01.png" alt=""> <p>3. The bottleneck is highlighted in purple:</p><pre class="codeinput">imshow(<span class="string">'bottle.png'</span>);
+</pre><img vspace="5" hspace="5" src="Report_02.png" alt=""> <p>4.</p><pre class="codeinput"><span class="syscmd">!glpsol -m maxflow.mod -d maxflow.dat -o maxflow.sol;</span>
+
+<span class="comment">% The edges with largest marginal value are:</span>
+<span class="comment">% 1 Flow[KingswayBoundary,KingswayKnight]</span>
+ <span class="comment">%                   NU           300             0           300             1</span>
+ <span class="comment">%    2 Flow[KingswayBoundary,Knight41st]</span>
+ <span class="comment">%                   NU           600             0           600             1</span>
+ <span class="comment">%    3 Flow[KingswayBoundary,LougheedBoundary]</span>
+ <span class="comment">%                   NU           200             0           200             1</span>
+ <span class="comment">%    4 Flow[KingswayBoundary,MarineBoundary]</span>
+ <span class="comment">%                  NS             0             0             =             1</span>
+ <span class="comment">%</span>
+ <span class="comment">% These edges correspond to the exact bottleneck I identified.</span>
+</pre><pre class="codeoutput">GLPSOL: GLPK LP/MIP Solver, v4.55
+Parameter(s) specified in the command line:
+ -m maxflow.mod -d maxflow.dat -o maxflow.sol
+Reading model section from maxflow.mod...
+97 lines were read
+Reading data section from maxflow.dat...
+276 lines were read
+Generating total_flow...
+Generating source_flow...
+Generating sink_flow...
+Generating flow_conservation...
+Model has been successfully generated
+GLPK Simplex Optimizer, v4.55
+26 rows, 85 columns, 171 non-zeros
+Preprocessing...
+25 rows, 77 columns, 154 non-zeros
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
+Problem data seem to be well scaled
+Constructing initial basis...
+Size of triangular part is 24
+*     0: obj =   0.000000000e+00  infeas =  0.000e+00 (1)
+*    19: obj =   1.100000000e+03  infeas =  0.000e+00 (1)
+OPTIMAL LP SOLUTION FOUND
+Time used:   0.0 secs
+Memory used: 0.3 Mb (354024 bytes)
+Wrote solution to sol.txt
+Wrote node information to nodes.txt
+SOURCE flow:
+    KingswayBoundary           -1100
+SINK flow:
+                 UBC            1100
+Total flow: 1100 passengers/hour
+Model has been successfully processed
+Writing basic solution to 'maxflow.sol'...
+</pre><p>5.</p><pre class="codeinput">prob.model = <span class="string">'maxflow_multi.mod'</span>;
+prob.data = <span class="string">'maxflow_multi.dat'</span>;
+solution = solve_network_flow(prob);
+d = plot_flow(solution,<span class="string">'maxflow multi'</span>);
+</pre><pre class="codeoutput">GLPSOL: GLPK LP/MIP Solver, v4.55
+Parameter(s) specified in the command line:
+ -m maxflow_multi.mod -d maxflow_multi.dat
+Reading model section from maxflow_multi.mod...
+101 lines were read
+Reading data section from maxflow_multi.dat...
+292 lines were read
+Generating total_flow...
+Generating source_flow...
+Generating sink_flow...
+Generating flow_conservation...
+Model has been successfully generated
+GLPK Simplex Optimizer, v4.55
+17 rows, 69 columns, 139 non-zeros
+Preprocessing...
+16 rows, 63 columns, 126 non-zeros
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
+Problem data seem to be well scaled
+Constructing initial basis...
+Size of triangular part is 14
+*     0: obj =   0.000000000e+00  infeas =  0.000e+00 (2)
+*    25: obj =   4.600000000e+03  infeas =  0.000e+00 (1)
+OPTIMAL LP SOLUTION FOUND
+Time used:   0.0 secs
+Memory used: 0.3 Mb (340475 bytes)
+Wrote solution to sol.txt
+Wrote node information to nodes.txt
+SOURCE flow:
+     MarineGranville           -1400
+           MarineOak            -300
+        MarineCambie            -200
+        KnightMarine            -600
+      MarineBoundary              -0
+    KingswayBoundary            -900
+    LougheedBoundary            -600
+         Boundary1st              -0
+    BoundaryHastings            -600
+SINK flow:
+            Downtown            2900
+                 UBC            1700
+Total flow: 4600 passengers/hour
+Model has been successfully processed
+</pre><img vspace="5" hspace="5" src="Report_03.png" alt=""> <p>6.</p><pre class="codeinput">prob.model = <span class="string">'maxflow.mod'</span>;
+prob.data = <span class="string">'maxflow_skytrain.dat'</span>;
+solution = solve_network_flow(prob);
+f = plot_flow(solution,<span class="string">'maxflow skytrain'</span>);
+</pre><pre class="codeoutput">GLPSOL: GLPK LP/MIP Solver, v4.55
+Parameter(s) specified in the command line:
+ -m maxflow.mod -d maxflow_skytrain.dat
+Reading model section from maxflow.mod...
+97 lines were read
+Reading data section from maxflow_skytrain.dat...
+293 lines were read
+Generating total_flow...
+Generating source_flow...
+Generating sink_flow...
+Generating flow_conservation...
+Model has been successfully generated
+GLPK Simplex Optimizer, v4.55
+26 rows, 85 columns, 171 non-zeros
+Preprocessing...
+25 rows, 77 columns, 154 non-zeros
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
+Problem data seem to be well scaled
+Constructing initial basis...
+Size of triangular part is 24
+*     0: obj =   0.000000000e+00  infeas =  0.000e+00 (1)
+*    17: obj =   4.300000000e+03  infeas =  0.000e+00 (1)
+OPTIMAL LP SOLUTION FOUND
+Time used:   0.0 secs
+Memory used: 0.3 Mb (354024 bytes)
+Wrote solution to sol.txt
+Wrote node information to nodes.txt
+SOURCE flow:
+    KingswayBoundary           -4300
+SINK flow:
+                 UBC            4300
+Total flow: 4300 passengers/hour
+Model has been successfully processed
+</pre><img vspace="5" hspace="5" src="Report_04.png" alt=""> <h2>4.2<a name="7"></a></h2><p>1. and 2.</p><pre class="codeinput">prob.model = <span class="string">'mincost.mod'</span>;
+prob.data = <span class="string">'mincost.dat'</span>;
+solution = solve_network_flow(prob);
+k = plot_flow(solution, <span class="string">'Min Cost'</span>);
+<span class="comment">%</span>
+</pre><pre class="codeoutput">GLPSOL: GLPK LP/MIP Solver, v4.55
+Parameter(s) specified in the command line:
+ -m mincost.mod -d mincost.dat
+Reading model section from mincost.mod...
+123 lines were read
+Reading data section from mincost.dat...
+305 lines were read
+Generating total_cost...
+Generating flow_conservation...
+Model has been successfully generated
+GLPK Simplex Optimizer, v4.55
+26 rows, 84 columns, 252 non-zeros
+Preprocessing...
+25 rows, 76 columns, 152 non-zeros
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
+Problem data seem to be well scaled
+Constructing initial basis...
+Size of triangular part is 24
+      0: obj =  -4.683293400e+03  infeas =  1.400e+04 (1)
+*    21: obj =   4.203457497e+03  infeas =  0.000e+00 (1)
+*    31: obj =   3.766808318e+03  infeas =  0.000e+00 (1)
+OPTIMAL LP SOLUTION FOUND
+Time used:   0.0 secs
+Memory used: 0.4 Mb (387292 bytes)
+Wrote solution to sol.txt
+Wrote node information to nodes.txt
+SOURCE flow:
+    KingswayBoundary            -500
+SINK flow:
+                 UBC            2500
+Min Cost: 3767  
+Model has been successfully processed
+</pre><img vspace="5" hspace="5" src="Report_05.png" alt=""> <p>3.          <b>MarineGranville, Marine41st     Dual: -0.426233</b>  We can increase the capacity of the route with this edge( route 480) and  decrease the capacity of another route (say route 99).</p><pre class="codeinput">prob.model = <span class="string">'mincost.mod'</span>;
+prob.data = <span class="string">'mincost2.dat'</span>;
+solution = solve_network_flow(prob);
+<span class="comment">%</span>
+</pre><pre class="codeoutput">GLPSOL: GLPK LP/MIP Solver, v4.55
+Parameter(s) specified in the command line:
+ -m mincost.mod -d mincost2.dat
+Reading model section from mincost.mod...
+123 lines were read
+Reading data section from mincost2.dat...
+305 lines were read
+Generating total_cost...
+Generating flow_conservation...
+Model has been successfully generated
+GLPK Simplex Optimizer, v4.55
+26 rows, 84 columns, 252 non-zeros
+Preprocessing...
+25 rows, 76 columns, 152 non-zeros
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
+Problem data seem to be well scaled
+Constructing initial basis...
+Size of triangular part is 24
+      0: obj =  -4.683293400e+03  infeas =  1.490e+04 (1)
+*    23: obj =   4.178185751e+03  infeas =  0.000e+00 (1)
+*    31: obj =   3.745477924e+03  infeas =  0.000e+00 (1)
+OPTIMAL LP SOLUTION FOUND
+Time used:   0.0 secs
+Memory used: 0.4 Mb (387292 bytes)
+Wrote solution to sol.txt
+Wrote node information to nodes.txt
+SOURCE flow:
+    KingswayBoundary            -500
+SINK flow:
+                 UBC            2500
+Min Cost: 3745  
+Model has been successfully processed
+</pre><h2>4.3<a name="9"></a></h2><p>1.</p><pre class="codeinput">prob.model = <span class="string">'multicommodity.mod'</span>;
+prob.data = <span class="string">'multicommodity.dat'</span>;
+solution = solve_network_flow(prob);
+
+<span class="comment">%</span>
+</pre><pre class="codeoutput">GLPSOL: GLPK LP/MIP Solver, v4.55
+Parameter(s) specified in the command line:
+ -m multicommodity.mod -d multicommodity.dat
+Reading model section from multicommodity.mod...
+132 lines were read
+Reading data section from multicommodity.dat...
+316 lines were read
+Generating total_cost...
+Generating flow_conservation...
+Generating capacity_conservation...
+Model has been successfully generated
+GLPK Simplex Optimizer, v4.55
+135 rows, 168 columns, 672 non-zeros
+Preprocessing...
+126 rows, 152 columns, 456 non-zeros
+Scaling...
+ A: min|aij| =  1.000e+00  max|aij| =  1.000e+00  ratio =  1.000e+00
+Problem data seem to be well scaled
+Constructing initial basis...
+Size of triangular part is 124
+      0: obj =  -1.207829216e+05  infeas =  3.530e+04 (2)
+*    44: obj =   9.135580978e+05  infeas =  0.000e+00 (2)
+*    55: obj =   8.586567698e+05  infeas =  0.000e+00 (2)
+OPTIMAL LP SOLUTION FOUND
+Time used:   0.0 secs
+Memory used: 0.6 Mb (676289 bytes)
+Wrote solution to sol.txt
+Wrote node information to nodes.txt
+SOURCE flow:
+    KingswayBoundary           -5000
+SINK flow:
+                 UBC            4000
+Multi Min Cost: 858657  
+         Boundary1st,    BoundaryHastings, Dual: 0.000000 
+         Boundary1st,    BoundaryHastings, Dual: 0.000000 
+         Boundary1st,            Clark1st, Dual: 0.000000 
+         Boundary1st,            Clark1st, Dual: 0.000000 
+         Boundary1st,    LougheedBoundary, Dual: 43.921062 
+         Boundary1st,    LougheedBoundary, Dual: 43.921062 
+    BoundaryHastings,         Boundary1st, Dual: 43.921062 
+    BoundaryHastings,         Boundary1st, Dual: 43.921062 
+    BoundaryHastings,       HastingsClark, Dual: 21.960531 
+    BoundaryHastings,       HastingsClark, Dual: 21.960531 
+       BroadwayClark,            Clark1st, Dual: 0.000000 
+       BroadwayClark,            Clark1st, Dual: 0.000000 
+       BroadwayClark,    KingswayBroadway, Dual: 21.960531 
+       BroadwayClark,    KingswayBroadway, Dual: 21.960531 
+       BroadwayClark,      KingswayKnight, Dual: 43.921062 
+       BroadwayClark,      KingswayKnight, Dual: 43.921062 
+       BroadwayClark,    LougheedBoundary, Dual: 43.921062 
+       BroadwayClark,    LougheedBoundary, Dual: 43.921062 
+          Cambie41st,      CambieBroadway, Dual: 0.000000 
+          Cambie41st,      CambieBroadway, Dual: 0.000000 
+          Cambie41st,          Knight41st, Dual: 43.921062 
+          Cambie41st,          Knight41st, Dual: 43.921062 
+          Cambie41st,        MarineCambie, Dual: 43.921062 
+          Cambie41st,        MarineCambie, Dual: 43.921062 
+          Cambie41st,             Oak41st, Dual: 0.000000 
+          Cambie41st,             Oak41st, Dual: 0.000000 
+      CambieBroadway,          Cambie41st, Dual: 43.921062 
+      CambieBroadway,          Cambie41st, Dual: 43.921062 
+      CambieBroadway,            Downtown, Dual: 0.000000 
+      CambieBroadway,            Downtown, Dual: 0.000000 
+      CambieBroadway,    KingswayBroadway, Dual: 43.921062 
+      CambieBroadway,    KingswayBroadway, Dual: 43.921062 
+      CambieBroadway,         OakBroadway, Dual: 43.921062 
+      CambieBroadway,         OakBroadway, Dual: 0.000000 
+            Clark1st,         Boundary1st, Dual: 43.921062 
+            Clark1st,         Boundary1st, Dual: 43.921062 
+            Clark1st,       BroadwayClark, Dual: 43.921062 
+            Clark1st,       BroadwayClark, Dual: 43.921062 
+            Clark1st,       HastingsClark, Dual: 21.960531 
+            Clark1st,       HastingsClark, Dual: 21.960531 
+            Clark1st,        MainTerminal, Dual: 21.960531 
+            Clark1st,        MainTerminal, Dual: 21.960531 
+            Downtown,      CambieBroadway, Dual: 43.921062 
+            Downtown,      CambieBroadway, Dual: 43.921062 
+            Downtown,   GranvilleBroadway, Dual: 43.921062 
+            Downtown,   GranvilleBroadway, Dual: 0.000000 
+            Downtown,       HastingsClark, Dual: 43.921062 
+            Downtown,       HastingsClark, Dual: 43.921062 
+            Downtown,        MainTerminal, Dual: 43.921062 
+            Downtown,        MainTerminal, Dual: 43.921062 
+       Granville41st,   GranvilleBroadway, Dual: 0.000000 
+       Granville41st,   GranvilleBroadway, Dual: 0.000000 
+       Granville41st,          Marine41st, Dual: 0.000000 
+       Granville41st,          Marine41st, Dual: 0.000000 
+       Granville41st,     MarineGranville, Dual: 87.842125 
+       Granville41st,     MarineGranville, Dual: 87.842125 
+       Granville41st,             Oak41st, Dual: 0.000000 
+       Granville41st,             Oak41st, Dual: 43.921062 
+   GranvilleBroadway,            Downtown, Dual: 0.000000 
+   GranvilleBroadway,            Downtown, Dual: 43.921062 
+   GranvilleBroadway,       Granville41st, Dual: 43.921062 
+   GranvilleBroadway,       Granville41st, Dual: 43.921062 
+   GranvilleBroadway,         OakBroadway, Dual: 43.921062 
+   GranvilleBroadway,         OakBroadway, Dual: 43.921062 
+   GranvilleBroadway,                 UBC, Dual: 43.921062 
+   GranvilleBroadway,                 UBC, Dual: 0.000000 
+       HastingsClark,    BoundaryHastings, Dual: 21.960531 
+       HastingsClark,    BoundaryHastings, Dual: 21.960531 
+       HastingsClark,            Clark1st, Dual: 21.960531 
+       HastingsClark,            Clark1st, Dual: 21.960531 
+       HastingsClark,            Downtown, Dual: 0.000000 
+       HastingsClark,            Downtown, Dual: 0.000000 
+    KingswayBoundary,      KingswayKnight, Dual: 0.000000 
+    KingswayBoundary,      KingswayKnight, Dual: 0.000000 
+    KingswayBoundary,          Knight41st, Dual: 0.000000 
+    KingswayBoundary,          Knight41st, Dual: 0.000000 
+    KingswayBoundary,    LougheedBoundary, Dual: 0.000000 
+    KingswayBoundary,    LougheedBoundary, Dual: 0.000000 
+    KingswayBoundary,      MarineBoundary, Dual: 0.000000 
+    KingswayBoundary,      MarineBoundary, Dual: 43.921062 
+    KingswayBroadway,       BroadwayClark, Dual: 21.960531 
+    KingswayBroadway,       BroadwayClark, Dual: 21.960531 
+    KingswayBroadway,      CambieBroadway, Dual: 0.000000 
+    KingswayBroadway,      CambieBroadway, Dual: 0.000000 
+    KingswayBroadway,      KingswayKnight, Dual: 43.921062 
+    KingswayBroadway,      KingswayKnight, Dual: 43.921062 
+    KingswayBroadway,        MainTerminal, Dual: 0.000000 
+    KingswayBroadway,        MainTerminal, Dual: 0.000000 
+      KingswayKnight,       BroadwayClark, Dual: 0.000000 
+      KingswayKnight,       BroadwayClark, Dual: 0.000000 
+      KingswayKnight,    KingswayBoundary, Dual: 43.921062 
+      KingswayKnight,    KingswayBoundary, Dual: 43.921062 
+      KingswayKnight,    KingswayBroadway, Dual: 0.000000 
+      KingswayKnight,    KingswayBroadway, Dual: 0.000000 
+      KingswayKnight,          Knight41st, Dual: 21.960531 
+      KingswayKnight,          Knight41st, Dual: 21.960531 
+          Knight41st,          Cambie41st, Dual: 0.000000 
+          Knight41st,          Cambie41st, Dual: 0.000000 
+          Knight41st,    KingswayBoundary, Dual: 43.921062 
+          Knight41st,    KingswayBoundary, Dual: 43.921062 
+          Knight41st,      KingswayKnight, Dual: 21.960531 
+          Knight41st,      KingswayKnight, Dual: 21.960531 
+          Knight41st,        KnightMarine, Dual: 0.000000 
+          Knight41st,        KnightMarine, Dual: 43.921062 
+        KnightMarine,          Knight41st, Dual: 43.921062 
+        KnightMarine,          Knight41st, Dual: 0.000000 
+        KnightMarine,      MarineBoundary, Dual: 43.921062 
+        KnightMarine,      MarineBoundary, Dual: 43.921062 
+        KnightMarine,        MarineCambie, Dual: 43.921062 
+        KnightMarine,        MarineCambie, Dual: 0.000000 
+    LougheedBoundary,         Boundary1st, Dual: 0.000000 
+    LougheedBoundary,         Boundary1st, Dual: 0.000000 
+    LougheedBoundary,       BroadwayClark, Dual: 0.000000 
+    LougheedBoundary,       BroadwayClark, Dual: 0.000000 
+    LougheedBoundary,    KingswayBoundary, Dual: 43.921062 
+    LougheedBoundary,    KingswayBoundary, Dual: 43.921062 
+        MainTerminal,            Clark1st, Dual: 21.960531 
+        MainTerminal,            Clark1st, Dual: 21.960531 
+        MainTerminal,            Downtown, Dual: 0.000000 
+        MainTerminal,            Downtown, Dual: 0.000000 
+        MainTerminal,    KingswayBroadway, Dual: 43.921062 
+        MainTerminal,    KingswayBroadway, Dual: 43.921062 
+          Marine41st,       Granville41st, Dual: 43.921062 
+          Marine41st,       Granville41st, Dual: 43.921062 
+          Marine41st,     MarineGranville, Dual: 109.802656 
+          Marine41st,     MarineGranville, Dual: 109.802656 
+          Marine41st,                 UBC, Dual: 43.921062 
+          Marine41st,                 UBC, Dual: 0.000000 
+      MarineBoundary,    KingswayBoundary, Dual: 43.921062 
+      MarineBoundary,    KingswayBoundary, Dual: 0.000000 
+      MarineBoundary,        KnightMarine, Dual: 0.000000 
+      MarineBoundary,        KnightMarine, Dual: 0.000000 
+        MarineCambie,          Cambie41st, Dual: 0.000000 
+        MarineCambie,          Cambie41st, Dual: 0.000000 
+        MarineCambie,        KnightMarine, Dual: 0.000000 
+        MarineCambie,        KnightMarine, Dual: 43.921062 
+        MarineCambie,           MarineOak, Dual: 43.921062 
+        MarineCambie,           MarineOak, Dual: 43.921062 
+     MarineGranville,       Granville41st, Dual: 0.000000 
+     MarineGranville,       Granville41st, Dual: 0.000000 
+     MarineGranville,          Marine41st, Dual: 0.000000 
+     MarineGranville,          Marine41st, Dual: 0.000000 
+     MarineGranville,           MarineOak, Dual: 0.000000 
+     MarineGranville,           MarineOak, Dual: 43.921062 
+           MarineOak,        MarineCambie, Dual: 0.000000 
+           MarineOak,        MarineCambie, Dual: 0.000000 
+           MarineOak,     MarineGranville, Dual: 43.921062 
+           MarineOak,     MarineGranville, Dual: 0.000000 
+           MarineOak,             Oak41st, Dual: 0.000000 
+           MarineOak,             Oak41st, Dual: 0.000000 
+             Oak41st,          Cambie41st, Dual: 43.921062 
+             Oak41st,          Cambie41st, Dual: 43.921062 
+             Oak41st,       Granville41st, Dual: 43.921062 
+             Oak41st,       Granville41st, Dual: 0.000000 
+             Oak41st,           MarineOak, Dual: 87.842125 
+             Oak41st,           MarineOak, Dual: 87.842125 
+             Oak41st,         OakBroadway, Dual: 43.921062 
+             Oak41st,         OakBroadway, Dual: 0.000000 
+         OakBroadway,      CambieBroadway, Dual: 0.000000 
+         OakBroadway,      CambieBroadway, Dual: 43.921062 
+         OakBroadway,   GranvilleBroadway, Dual: 0.000000 
+         OakBroadway,   GranvilleBroadway, Dual: 0.000000 
+         OakBroadway,             Oak41st, Dual: 0.000000 
+         OakBroadway,             Oak41st, Dual: 43.921062 
+                 UBC,   GranvilleBroadway, Dual: 0.000000 
+                 UBC,   GranvilleBroadway, Dual: 43.921062 
+                 UBC,          Marine41st, Dual: 0.000000 
+                 UBC,          Marine41st, Dual: 43.921062 
+Model has been successfully processed
+</pre><p>2. It seems like all the dual multipliers are positive, so increasing or decreasing an edge capacity would only increase cost?</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Network Flow Case Study Report
+% Shawn Taxerman      ECS 189 Spring 2016
+%% 4.1
+% 1.
+!glpsol;
+%%
+% 2.
+prob.model = 'maxflow.mod';
+prob.data = 'maxflow.dat';
+solution = solve_network_flow(prob);
+h = plot_flow(solution, 'Max Flow');
+%%
+% 3.
+% The bottleneck is highlighted in purple:
+imshow('bottle.png');
+%%
+% 4.
+!glpsol -m maxflow.mod -d maxflow.dat -o maxflow.sol;
+
+% The edges with largest marginal value are:
+% 1 Flow[KingswayBoundary,KingswayKnight]
+ %                   NU           300             0           300             1 
+ %    2 Flow[KingswayBoundary,Knight41st]
+ %                   NU           600             0           600             1 
+ %    3 Flow[KingswayBoundary,LougheedBoundary]
+ %                   NU           200             0           200             1 
+ %    4 Flow[KingswayBoundary,MarineBoundary]
+ %                  NS             0             0             =             1 
+ %
+ % These edges correspond to the exact bottleneck I identified.
+
+%%
+% 5.
+prob.model = 'maxflow_multi.mod';
+prob.data = 'maxflow_multi.dat';
+solution = solve_network_flow(prob);
+d = plot_flow(solution,'maxflow multi');
+%%
+% 6.
+prob.model = 'maxflow.mod';
+prob.data = 'maxflow_skytrain.dat';
+solution = solve_network_flow(prob);
+f = plot_flow(solution,'maxflow skytrain');
+%% 4.2
+% 1. and 2.
+prob.model = 'mincost.mod';
+prob.data = 'mincost.dat';
+solution = solve_network_flow(prob);
+k = plot_flow(solution, 'Min Cost');
+%
+%%
+% 3.
+%          *MarineGranville, Marine41st     Dual: -0.426233* 
+%  We can increase the capacity of the route with this edge( route 480) and
+%  decrease the capacity of another route (say route 99).
+prob.model = 'mincost.mod';
+prob.data = 'mincost2.dat';
+solution = solve_network_flow(prob);
+%
+%% 4.3
+% 1.
+prob.model = 'multicommodity.mod';
+prob.data = 'multicommodity.dat';
+solution = solve_network_flow(prob);
+
+%
+%% 
+% 2.
+% It seems like all the dual multipliers are positive, so increasing or
+% decreasing an edge capacity would only increase cost?
+
+##### SOURCE END #####
+--></body></html>
